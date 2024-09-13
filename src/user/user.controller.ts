@@ -6,11 +6,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiTags } from '@nestjs/swagger';
+// import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto'; // Thêm DTO cho login
 
-@ApiTags('Users')
+// @ApiTags('Users')
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}

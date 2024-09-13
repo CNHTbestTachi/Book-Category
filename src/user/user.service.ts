@@ -10,8 +10,8 @@ import { access } from 'fs';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private userRepo: Repository<User>,
-    private jwtService: JwtService, // Inject JwtService
+    @InjectRepository(User) public userRepo: Repository<User>,
+    public jwtService: JwtService, // Inject JwtService
   ) {}
 
   create(requestBody: any) {
@@ -48,53 +48,6 @@ export class UserService {
       accessToken2,
     };
   }
-
-  //   const checkUsername = requestBody.username;
-
-  //   // Kiểm tra nếu username là undefined hoặc null
-  //   if (!checkUsername) {
-  //     return 'Username is required';
-  //   }
-
-  //   // Kiểm tra độ dài của username
-  //   if (checkUsername.length < 3 || checkUsername.length > 16) {
-  //     return 'Username must be between 3 and 16 characters';
-  //   }
-
-  //   // Kiểm tra xem có chứa khoảng trắng không
-  //   if (checkUsername.includes(' ')) {
-  //     return 'Username cannot contain spaces';
-  //   }
-
-  //   // Kiểm tra xem có chứa các ký tự không hợp lệ
-  //   const regex = /^[a-zA-Z0-9_.]+$/;
-  //   if (!regex.test(checkUsername)) {
-  //     return 'Username can only contain letters, numbers, underscores (_) or periods (.)';
-  //   }
-
-  //   // Kiểm tra không bắt đầu hoặc kết thúc bằng dấu chấm (.) hoặc gạch dưới (_)
-  //   if (
-  //     checkUsername.startsWith('.') ||
-  //     checkUsername.startsWith('_') ||
-  //     checkUsername.endsWith('.') ||
-  //     checkUsername.endsWith('_')
-  //   ) {
-  //     return 'Username cannot start or end with a period (.) or underscore (_)';
-  //   }
-
-  //   // Kiểm tra không có hai dấu chấm (..) hoặc gạch dưới (__) liền nhau
-  //   if (checkUsername.includes('..') || checkUsername.includes('__')) {
-  //     return 'Username cannot contain consecutive periods (..) or underscores (__)';
-  //   }
-
-  //   // Hash mật khẩu trước khi lưu vào database
-  //   const hashedPassword = await bcrypt.hash(requestBody.password, 10);
-  //   requestBody.password = hashedPassword;
-
-  //   const user = await this.userRepo.create(requestBody);
-  //   return await this.userRepo.save(user);
-  // }
-
   async login(email: string, password: string) {
     const user = await this.userRepo.findOneBy({ email });
 
@@ -118,4 +71,13 @@ export class UserService {
       access_token, // Trả về token nếu cần
     };
   }
+  async findOne(username: string): Promise<User | undefined> {
+    try {
+      return await this.userRepo.findOne({ where: { username } });
+    } catch (error) {
+      console.error('Error finding user:', error);
+      throw new Error('Could not find user');
+    }
+  }
+  
 }

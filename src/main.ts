@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +18,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document)
   Logger.log(`Port running on: ${port}`)
   Logger.log(`Swagger running on: http://localhost:${port}/api#/`)
-
+  // Setup auto-validations
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(port);
 }
 bootstrap();

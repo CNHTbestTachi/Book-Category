@@ -6,9 +6,10 @@ import { Book } from './books/book.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/category.entity';
 import { User } from './user/user.entity';
-import { UserModule } from './user/user.module';
 import { BookCategoriesModule } from './book-categories/book-categories.module';
 import { BookCategory } from './book-categories/entities/book-category.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -28,6 +29,8 @@ import { BookCategory } from './book-categories/entities/book-category.entity';
     CategoriesModule,
     UserModule,
     BookCategoriesModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
